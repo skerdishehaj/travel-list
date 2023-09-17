@@ -1,12 +1,17 @@
 import Item from "./Item";
 
-export default function PackingList({ items, onDeleteItem }) {
+export default function PackingList({ items, onDeleteItem, onToggleItem }) {
   return (
     <div className="list">
       <ul>
         {items.length > 0 &&
           items.map((item) => (
-            <Item onDelete={onDeleteItem} key={item.id} item={item} />
+            <Item
+              onToggleItem={onToggleItem}
+              onDeleteItem={onDeleteItem}
+              key={item.id}
+              item={item}
+            />
           ))}
       </ul>
     </div>

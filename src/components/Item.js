@@ -1,14 +1,15 @@
-export default function Item({ item, onDelete }) {
-  const handleDeleteItem = (id) => {
-    console.log("Item: " + id);
-    onDelete(id);
-  };
+export default function Item({ item, onDeleteItem, onToggleItem }) {
   return (
     <li>
+      <input
+        type="checkbox"
+        checked={item.packed}
+        onChange={onToggleItem.bind(null, item.id)}
+      />
       <span style={item.packed ? { textDecoration: "line-through" } : {}}>
         {item.quantity} {item.description}
       </span>
-      <button onClick={handleDeleteItem.bind(null, item.id)}>❌</button>
+      <button onClick={onDeleteItem.bind(null, item.id)}>❌</button>
     </li>
   );
 }

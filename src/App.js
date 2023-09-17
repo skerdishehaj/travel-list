@@ -15,7 +15,7 @@ function App() {
   const [items, setItems] = useState(initialItems);
 
   // Function to add an item
-  const handleGetItem = (item) => {
+  const handleAddItem = (item) => {
     setItems((prevItems) => {
       return [...prevItems, item];
     });
@@ -28,11 +28,24 @@ function App() {
     });
   };
 
+  // Function to toggle an item's packed property (checkbox check/uncheck)
+  const handleToggleItem = (id) => {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id ? { ...item, packed: !item.packed } : item
+      )
+    );
+  };
+
   return (
     <div className="app">
       <Logo />
-      <Form onGetItem={handleGetItem} />
-      <PackingList onDeleteItem={handleDeleteItem} items={items} />
+      <Form onAddItem={handleAddItem} />
+      <PackingList
+        onToggleItem={handleToggleItem}
+        onDeleteItem={handleDeleteItem}
+        items={items}
+      />
       <Stats />
     </div>
   );
