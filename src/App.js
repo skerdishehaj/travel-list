@@ -11,17 +11,28 @@ const initialItems = [
 ];
 
 function App() {
+  // State to hold the items
   const [items, setItems] = useState(initialItems);
+
+  // Function to add an item
   const handleGetItem = (item) => {
     setItems((prevItems) => {
       return [...prevItems, item];
     });
   };
+
+  // Function to delete an item
+  const handleDeleteItem = (id) => {
+    setItems((prevItems) => {
+      return prevItems.filter((item) => item.id !== id);
+    });
+  };
+
   return (
     <div className="app">
       <Logo />
       <Form onGetItem={handleGetItem} />
-      <PackingList items={items} />
+      <PackingList onDeleteItem={handleDeleteItem} items={items} />
       <Stats />
     </div>
   );
