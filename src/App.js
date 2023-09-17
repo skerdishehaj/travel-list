@@ -37,6 +37,17 @@ function App() {
     );
   };
 
+  // Function to clear the list
+  const handleClearList = () => {
+    let confirmed = true;
+    if (items.length > 0) {
+      confirmed = window.confirm(
+        "Are you sure you want to clear the list? This cannot be undone."
+      );
+    }
+    if (confirmed) setItems([]);
+  };
+
   return (
     <div className="app">
       <Logo />
@@ -44,9 +55,13 @@ function App() {
       <PackingList
         onToggleItem={handleToggleItem}
         onDeleteItem={handleDeleteItem}
+        onClearList={handleClearList}
         items={items}
       />
-      <Stats />
+      <Stats
+        noOfItems={items.length}
+        noOfPackedItems={items.filter((item) => item.packed).length}
+      />
     </div>
   );
 }
