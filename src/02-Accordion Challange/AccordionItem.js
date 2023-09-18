@@ -1,18 +1,14 @@
-import { useState } from "react";
-
-function AccordionItem({ title, text, number }) {
-  const [isOpen, setIsOpen] = useState(false);
+function AccordionItem({ title, children, number, onSetActive, active }) {
+  let isActive = number === active;
   return (
     <li
-      onClick={() => {
-        setIsOpen((isOpen) => !isOpen);
-      }}
-      className={isOpen ? "item open" : "item"}
+      onClick={onSetActive.bind(null, number)}
+      className={isActive ? "item open" : "item"}
     >
       <p className="number">{number < 9 ? `0${number}` : number}</p>
       <p className="title">{title}</p>
-      <p className="logo">{isOpen ? `-` : `+`}</p>
-      {isOpen && <div className="content-box">{text}</div>}
+      <p className="logo">{isActive ? `-` : `+`}</p>
+      {isActive && <div className="content-box">{children}</div>}
     </li>
   );
 }
