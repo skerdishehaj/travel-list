@@ -1,16 +1,32 @@
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import BillInput from "./BillInput";
 import SelectPercentage from "./SelectPercentage";
 import Output from "./Output";
 import Button from "./Button";
 
+const percentageReducer = (state, action) => {
+  switch (action.type) {
+    case "me":
+      return { ...state, me: action.payload };
+    case "friend":
+      return { ...state, friend: action.payload };
+    default:
+      return state;
+  }
+};
+
 function App() {
   const [bill, setBill] = useState("");
-  const [percentage, setPercentage] = useState({ me: 0, friend: 0 });
+  // const [percentage, setPercentage] = useState({ me: 0, friend: 0 });
+  const [percentage, dispatchPercentage] = useReducer(percentageReducer, {
+    me: 0,
+    friend: 0,
+  });
+
   let showOutput = !(bill === "" || bill === 0);
   const resetForm = () => {
     setBill("");
-    setPercentage({ me: 0, friend: 0 });
+    dispatchPercentage({ type: "me", payload: 0 });
   };
 
   return (
@@ -22,10 +38,7 @@ function App() {
       <SelectPercentage
         percentage={percentage.me}
         onGetPercentage={(percentage) =>
-          setPercentage((prevPercentage) => ({
-            ...prevPercentage,
-            me: percentage,
-          }))
+          dispatchPercentage({ type: "me", payload: percentage })
         }
       >
         How did you like the service?
@@ -34,10 +47,7 @@ function App() {
       <SelectPercentage
         percentage={percentage.friend}
         onGetPercentage={(percentage) =>
-          setPercentage((prevPercentage) => ({
-            ...prevPercentage,
-            friend: percentage,
-          }))
+          dispatchPercentage({ type: "friend", payload: percentage })
         }
       >
         How did your friend like the service?
